@@ -8,11 +8,11 @@ normal strings, character literals, and raw strings are masked by the compiler
 before this module sees them. Lines crossed by multi-line protected fragments
 are kept byte-for-byte apart from a requested line-ending conversion.
 -}
-module Visual.Formatter.Layout (formatLayout) where
+module Progmasoft.Talafmt.Layout (formatLayout) where
 
 import Data.List (intercalate, isPrefixOf)
-import Visual.Formatter.Options
-import Visual.XSharp.SourceText
+import Progmasoft.Talafmt.Options
+import Progmasoft.Tala.SourceText
 
 formatLayout :: FormatOptions -> String -> [SourceFragment] -> String
 formatLayout options source fragments =

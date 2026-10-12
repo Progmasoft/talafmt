@@ -1,7 +1,7 @@
 -- SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com>
 -- SPDX-License-Identifier: MPL-2.0 WITH AdditionRef-Progmasoft-Exception-1.1
 
-module Visual.Formatter.Options
+module Progmasoft.Talafmt.Options
     ( LineEnding (..)
     , FormatOptions (..)
     , defaultFormatOptions
@@ -11,7 +11,7 @@ module Visual.Formatter.Options
 data LineEnding = Auto | CrLf | Lf
     deriving (Bounded, Enum, Eq, Ord, Read, Show)
 
--- The Haskell engine mirrors the subset of Visual.Formatter.kts which already
+-- The Haskell engine mirrors the subset of talafmt.kts which already
 -- has executable behavior. Keeping unsupported DSL keys out of this record is
 -- intentional: accepting a setting and silently ignoring it is worse than
 -- waiting until its layout pass exists.

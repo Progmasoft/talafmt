@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0 WITH AdditionRef-Progmasoft-Exception-1.1
  */
 
-package com.progmasoft.visual.formatter.config
+package com.progmasoft.talafmt.config
 
 @DslMarker annotation class FormatterDsl
 
@@ -104,7 +104,7 @@ class EncodingScope {
 }
 
 /**
- * Typed state exposed as the receiver of `Visual.Formatter.kts`.
+ * Typed state exposed as the receiver of `talafmt.kts`.
  *
  * Evaluation remains separate from the immutable model: one fresh receiver is created for every
  * script, and [build] validates the complete snapshot only after Kotlin execution succeeds.
