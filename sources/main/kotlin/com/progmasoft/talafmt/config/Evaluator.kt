@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0 WITH AdditionRef-Progmasoft-Exception-1.1
  */
 
-package com.progmasoft.visual.formatter.config
+package com.progmasoft.talafmt.config
 
 import java.io.File
 import kotlin.script.experimental.annotations.KotlinScript
@@ -27,7 +27,7 @@ abstract class FormatterScript : FormatterScope()
 object FormatterScriptCompilationConfiguration :
   ScriptCompilationConfiguration({
     baseClass(FormatterScript::class)
-    defaultImports("com.progmasoft.visual.formatter.config.*")
+    defaultImports("com.progmasoft.talafmt.config.*")
     jvm { dependenciesFromCurrentContext(wholeClasspath = true) }
   })
 

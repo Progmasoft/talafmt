@@ -1,8 +1,8 @@
 -- SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com>
 -- SPDX-License-Identifier: MPL-2.0 WITH AdditionRef-Progmasoft-Exception-1.1
 
--- | Syntax-validated, trivia-preserving Visual X# formatting.
-module Visual.Formatter
+-- | Syntax-validated, trivia-preserving Tala formatting.
+module Progmasoft.Talafmt
     ( LineEnding (..)
     , FormatOptions (..)
     , FormatResult (..)
@@ -10,11 +10,11 @@ module Visual.Formatter
     , formatSource
     ) where
 
-import Visual.Formatter.Layout
-import Visual.Formatter.Options
-import Visual.XSharp.Diagnostic
-import Visual.XSharp.Frontend
-import Visual.XSharp.SourceText
+import Progmasoft.Talafmt.Layout
+import Progmasoft.Talafmt.Options
+import Progmasoft.Tala.Diagnostic
+import Progmasoft.Tala.Frontend
+import Progmasoft.Tala.SourceText
 
 data FormatResult = FormatResult
     { formattedSource :: String
@@ -35,4 +35,4 @@ formatSource options input = case validateFormatOptions options of
         pure (FormatResult output (output /= source))
 
 formatterDiagnostic :: String -> Diagnostic
-formatterDiagnostic message = Diagnostic SourceLoaderStage Error "VXF0001" Nothing message
+formatterDiagnostic message = Diagnostic SourceLoaderStage Error "TAF0001" Nothing message

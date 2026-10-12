@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0 WITH AdditionRef-Progmasoft-Exception-1.1
  */
 
-package com.progmasoft.visual.formatter.config
+package com.progmasoft.talafmt.config
 
 enum class BraceStyle {
   ALLMAN,

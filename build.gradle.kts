@@ -13,7 +13,7 @@ plugins {
     application
 }
 
-group = "com.progmasoft.visual.formatter"
+group = "com.progmasoft.talafmt"
 version = "0.1.1"
 
 repositories { mavenCentral() }
@@ -30,8 +30,8 @@ dependencies {
 }
 
 application {
-    mainClass = "com.progmasoft.visual.formatter.config.MainKt"
-    applicationName = "vfmt-config"
+    mainClass = "com.progmasoft.talafmt.config.MainKt"
+    applicationName = "talafmt-config"
 }
 
 kotlin {

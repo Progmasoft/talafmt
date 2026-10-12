@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0 WITH AdditionRef-Progmasoft-Exception-1.1
  */
 
-package com.progmasoft.visual.formatter.config
+package com.progmasoft.talafmt.config
 
 import java.io.File
 import java.nio.file.Files
@@ -72,9 +72,9 @@ class FormatterDslTest {
 
   @Test
   fun evaluatesTheRealKotlinReceiver() {
-    val directory = Files.createTempDirectory("visual-formatter-script-").toFile()
+    val directory = Files.createTempDirectory("talafmt-script-").toFile()
     try {
-      val script = File(directory, "Visual.Formatter.kts")
+      val script = File(directory, "talafmt.kts")
       script.writeText(
         """
         val wide = 16

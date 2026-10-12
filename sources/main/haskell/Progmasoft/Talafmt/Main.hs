@@ -13,10 +13,10 @@ import System.Exit (ExitCode (..), exitFailure)
 import System.IO (hClose, hPutStrLn, openBinaryTempFile, stderr, stdout)
 import System.Info (os)
 import System.Process (readProcessWithExitCode)
-import Visual.Formatter
-import Visual.Formatter.Encoding
-import Visual.XSharp.Diagnostic
-import Visual.XSharp.Frontend
+import Progmasoft.Talafmt
+import Progmasoft.Talafmt.Encoding
+import Progmasoft.Tala.Diagnostic
+import Progmasoft.Tala.Frontend
 
 data Mode = Standard | InPlace | DryRun
     deriving (Eq, Show)
@@ -53,7 +53,7 @@ runCommand Help = usage
 runCommand (Format mode paths) = do
     configured <- loadEncodingOptions
     case configured of
-        Left problem -> hPutStrLn stderr ("VXF0003: " ++ problem) >> exitFailure
+        Left problem -> hPutStrLn stderr ("TAF0003: " ++ problem) >> exitFailure
         Right encoding -> do
             results <- mapM (formatPath mode encoding) paths
             if and results then pure () else exitFailure
@@ -63,7 +63,7 @@ formatPath mode encoding path = do
     input <- ByteString.readFile path
     decoded <- decodeSourceBytes (inputEncoding encoding) input
     case decoded of
-        Left problem -> hPutStrLn stderr ("VXF0002: cannot decode " ++ path ++ ": " ++ problem) >> pure False
+        Left problem -> hPutStrLn stderr ("TAF0002: cannot decode " ++ path ++ ": " ++ problem) >> pure False
         Right source -> case formatSource defaultFormatOptions (CompilerInput path source) of
             Left problems -> mapM_ printCompilerDiagnostic problems >> pure False
             Right result -> do
@@ -73,13 +73,13 @@ formatPath mode encoding path = do
                     InPlace -> ByteString.writeFile path output >> pure True
                     DryRun -> pure (output == input)
 
--- Visual.Formatter.kts remains executable Kotlin rather than a second static
+-- talafmt.kts remains executable Kotlin rather than a second static
 -- manifest. The JVM helper evaluates it once per formatter process and returns
 -- only the immutable encoding projection needed by the current Haskell engine.
 loadEncodingOptions :: IO (Either String EncodingOptions)
 loadEncodingOptions = do
     root <- getCurrentDirectory
-    let script = root ++ "/Visual.Formatter.kts"
+    let script = root ++ "/talafmt.kts"
     present <- doesFileExist script
     if not present
         then pure (Right defaultEncodingOptions)
@@ -88,7 +88,7 @@ loadEncodingOptions = do
 withConfigurationFile :: FilePath -> IO (Either String EncodingOptions)
 withConfigurationFile root = do
     temporaryDirectory <- getTemporaryDirectory
-    (path, handle) <- openBinaryTempFile temporaryDirectory "visual-formatter-config"
+    (path, handle) <- openBinaryTempFile temporaryDirectory "talafmt-config"
     hClose handle
     executable <- findExecutable evaluator
     result <- case executable of
@@ -103,14 +103,14 @@ withConfigurationFile root = do
     _ <- try (removeFile path) :: IO (Either IOException ())
     pure result
     where
-        evaluator = if os == "mingw32" then "vfmt-config.bat" else "vfmt-config"
+        evaluator = if os == "mingw32" then "talafmt-config.bat" else "talafmt-config"
 
 parseConfigurationFile :: FilePath -> IO (Either String EncodingOptions)
 parseConfigurationFile path = do
     bytes <- ByteString.readFile path
     let fields = map ByteString.Char8.unpack (dropTrailingEmpty (ByteString.split 0 bytes))
     pure $ case fields of
-        ["visual-formatter-config-v1", inputName, outputName, bomName] -> do
+        ["talafmt-config-v1", inputName, outputName, bomName] -> do
             input <- maybe (Left "invalid formatter input encoding") Right (parseSourceEncoding inputName)
             output <- maybe (Left "invalid formatter output encoding") Right (parseSourceEncoding outputName)
             bom <- case bomName of
@@ -137,4 +137,4 @@ printCompilerDiagnostic problem =
 usage :: IO ()
 usage =
     putStrLn
-        "usage: vfmt <file.vxs> | vfmt -In-Place <file.vxs>... | vfmt -Dry-Run <file.vxs>... | vfmt -Help"
+        "usage: talafmt <file.tala> | talafmt -In-Place <file.tala>... | talafmt -Dry-Run <file.tala>... | talafmt -Help"

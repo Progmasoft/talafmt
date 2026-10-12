@@ -4,10 +4,10 @@
 module Main (main) where
 
 import System.Exit (exitFailure)
-import Visual.Formatter
-import Visual.Formatter.Encoding
-import Visual.XSharp.Diagnostic (diagnosticCode)
-import Visual.XSharp.Frontend
+import Progmasoft.Talafmt
+import Progmasoft.Talafmt.Encoding
+import Progmasoft.Tala.Diagnostic (diagnosticCode)
+import Progmasoft.Tala.Frontend
 
 main :: IO ()
 main = do
@@ -68,17 +68,17 @@ normalizesLayout :: Bool
 normalizesLayout =
     let source =
             "namespace Example;  \r\npublic class Program {\n    public static void Main() {\t\r\n        return;\r\n    }\r\n}\r\n"
-     in case formatSource defaultFormatOptions (CompilerInput "Program.vxs" source) of
+     in case formatSource defaultFormatOptions (CompilerInput "Program.tala" source) of
             Right result -> formattedSource result == formattedProgram && formattingChanged result
             Left _ -> False
 
 unchangedSource :: Bool
-unchangedSource = case formatSource defaultFormatOptions (CompilerInput "Program.vxs" formattedProgram) of
+unchangedSource = case formatSource defaultFormatOptions (CompilerInput "Program.tala" formattedProgram) of
     Right result -> not (formattingChanged result)
     Left _ -> False
 
 rejectsMalformedSource :: Bool
-rejectsMalformedSource = case formatSource defaultFormatOptions (CompilerInput "Broken.vxs" "@   ") of
+rejectsMalformedSource = case formatSource defaultFormatOptions (CompilerInput "Broken.tala" "@   ") of
     Left _ -> True
     Right _ -> False
 
@@ -236,8 +236,8 @@ rejectsTabWidth :: Bool
 rejectsTabWidth = rejectsOptions defaultFormatOptions {formatTabWidth = 0}
 
 formattingIsIdempotent :: Bool
-formattingIsIdempotent = case formatSource defaultFormatOptions (CompilerInput "Program.vxs" nestedInput) of
-    Right first -> case formatSource defaultFormatOptions (CompilerInput "Program.vxs" (formattedSource first)) of
+formattingIsIdempotent = case formatSource defaultFormatOptions (CompilerInput "Program.tala" nestedInput) of
+    Right first -> case formatSource defaultFormatOptions (CompilerInput "Program.tala" (formattedSource first)) of
         Right second -> not (formattingChanged second) && formattedSource second == formattedSource first
         Left _ -> False
     Left _ -> False
@@ -308,13 +308,13 @@ formatsBranchingForms =
         )
 
 formats :: FormatOptions -> String -> String -> Bool
-formats options source expected = case formatSource options (CompilerInput "Program.vxs" source) of
+formats options source expected = case formatSource options (CompilerInput "Program.tala" source) of
     Right result -> formattedSource result == expected
     Left _ -> False
 
 rejectsOptions :: FormatOptions -> Bool
-rejectsOptions options = case formatSource options (CompilerInput "Program.vxs" "class Program {}") of
-    Left [problem] -> diagnosticCode problem == "VXF0001"
+rejectsOptions options = case formatSource options (CompilerInput "Program.tala" "class Program {}") of
+    Left [problem] -> diagnosticCode problem == "TAF0001"
     _ -> False
 
 -- `::` is one token of the language; the formatter must neither split it
@@ -408,8 +408,8 @@ formatsConsoleFormats =
 
 currentFormsAreIdempotent :: Bool
 currentFormsAreIdempotent =
-    case formatSource defaultFormatOptions (CompilerInput "Program.vxs" source) of
-        Right first -> case formatSource defaultFormatOptions (CompilerInput "Program.vxs" (formattedSource first)) of
+    case formatSource defaultFormatOptions (CompilerInput "Program.tala" source) of
+        Right first -> case formatSource defaultFormatOptions (CompilerInput "Program.tala" (formattedSource first)) of
             Right second -> formattingChanged first && not (formattingChanged second)
             Left _ -> False
         Left _ -> False
