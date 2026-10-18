@@ -8,7 +8,11 @@ changing it. It normalizes line endings, trailing horizontal whitespace, the fin
 indentation. The compiler's lossless source-fragment model distinguishes code from comments, character literals, normal
 strings, and raw strings, so structural characters inside protected text never affect indentation.
 
-The formatter accepts what the compiler it is built with accepts. Version 0.2.0 is built with the compiler of
+talafmt is the formatter of [Tala](https://tala.run/). It moved from the
+[compiler repository](https://github.com/Progmasoft/tala) with its history on 2026-10-18 and starts its own versions at
+0.1.0.
+
+The formatter accepts what the compiler it is built with accepts. Version 0.1.0 is built with the compiler of
 Tala 0.1.0, so a source may use method references (`Type::Method`), names written through their namespace,
 conditionals over strings, `match`, enums and console formats; none of them changes how a line is laid out.
 
@@ -36,3 +40,18 @@ defaults, validation, immutable snapshots, and real scripting evaluator. `talafm
 once, then applies the selected input encoding, output encoding, and BOM policy to every requested source. Encoding is not
 a formatter CLI option: every `talafmt` run obeys `talafmt.kts`. UTF-16 and UTF-32
 output uses deterministic little-endian payloads, with BOM emission controlled independently.
+
+## Building and testing
+
+talafmt uses the compiler through the `tala-tooling` package. Until the compiler packages are on Hackage,
+`cabal.project` fetches them from Progmasoft/tala, pinned to the commit of the `tala-0.1.0` release, so the first
+build compiles them too.
+
+```powershell
+cabal update
+cabal build all
+cabal test all
+.\gradlew.bat check      # the Kotlin configuration model: format check and tests
+```
+
+You need GHC 9.10 and Cabal 3.16, and JDK 25 for the Kotlin module.
