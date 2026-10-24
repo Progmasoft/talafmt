@@ -68,3 +68,7 @@ test-suite talafmt-tests
         talafmt,
         tala-tooling
     default-language: GHC2024
+
+source-repository head
+    type: git
+    location: https://github.com/Progmasoft/talafmt
