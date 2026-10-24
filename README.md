@@ -43,9 +43,8 @@ output uses deterministic little-endian payloads, with BOM emission controlled i
 
 ## Building and testing
 
-talafmt uses the compiler through the `tala-tooling` package. Until the compiler packages are on Hackage,
-`cabal.project` fetches them from Progmasoft/tala, pinned to the commit of the `tala-0.1.0` release, so the first
-build compiles them too.
+talafmt uses the compiler through the [`tala-tooling`](https://hackage.haskell.org/package/tala-tooling) package
+from Hackage; the first build compiles it and the compiler packages it depends on.
 
 ```powershell
 cabal update
