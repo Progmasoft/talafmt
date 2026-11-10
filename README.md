@@ -3,6 +3,13 @@
 
 # talafmt
 
+> [!IMPORTANT]
+> talafmt is no longer developed as of 2026-11-10, together with the rest of Tala: the language, the compiler Talac,
+> talafmt, talalint and tala-analyzer. Progmasoft puts its work into [Tazel](https://tazel.net), which becomes a build
+> system for C, C++, Objective-C, Objective-C++ and Zig. The Tala name goes on with OpenTala, a kernel, and TalaOS,
+> for which tala.run is being prepared. This repository is archived: it is read-only, and its code, history and releases
+> stay available.
+
 talafmt provides the `talafmt` command and validates every input with the canonical Tala lexer and parser before
 changing it. It normalizes line endings, trailing horizontal whitespace, the final newline, and brace-based block
 indentation. The compiler's lossless source-fragment model distinguishes code from comments, character literals, normal
